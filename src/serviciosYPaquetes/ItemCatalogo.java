@@ -1,3 +1,5 @@
+package serviciosYPaquetes;
+
 public abstract class ItemCatalogo {
     //Atributos
     String id;
