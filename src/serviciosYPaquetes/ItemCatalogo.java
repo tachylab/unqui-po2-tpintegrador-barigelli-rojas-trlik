@@ -2,17 +2,15 @@ package serviciosYPaquetes;
 
 public abstract class ItemCatalogo {
     //Atributos
-    String id;
-    String nombre;
-    String proveedor;
-    float precioBase;
+    protected String id;
+    protected String nombre;
+    protected String proveedor;
 
     //Constructor
-    protected  ItemCatalogo(String id, String nombre, String proveedor, float precioBase) {
+    protected  ItemCatalogo(String id, String nombre, String proveedor) {
         this.id = id;
         this.nombre = nombre;
         this.proveedor = proveedor;
-        this.precioBase = precioBase;
     }
 
     //Accessors
@@ -28,11 +26,9 @@ public abstract class ItemCatalogo {
         return proveedor;
     }
 
-    public float getPrecioBase() {
-        return precioBase;
-    }
+    public abstract double precioBase();
 
-    public abstract float precioFinal();
+    public abstract double precioFinal();
 
     public abstract boolean esValido();
 }
