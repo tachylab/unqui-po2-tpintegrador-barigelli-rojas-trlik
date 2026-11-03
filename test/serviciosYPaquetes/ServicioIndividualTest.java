@@ -17,7 +17,7 @@ public class ServicioIndividualTest {
     AtributoDinamico atributoDinamico3;
     @BeforeEach
     public void setUp() {
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", 120.0);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0);
         atributosDinamicos = new ArrayList<>();
         atributoDinamico = mock(AtributoDinamico.class);
         atributoDinamico2 = mock(AtributoDinamico.class);
@@ -65,7 +65,7 @@ public class ServicioIndividualTest {
     public void esValidoConTodosLosAtributosValidosTest() {
         //Setup
         atributosDinamicos.addAll(List.of(atributoDinamico, atributoDinamico2, atributoDinamico3));
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", 120.0, atributosDinamicos);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0, atributosDinamicos);
         //Stubbing del comportamiento esperado
         when(atributoDinamico.esValido()).thenReturn(true);
         when(atributoDinamico2.esValido()).thenReturn(true);
@@ -82,7 +82,7 @@ public class ServicioIndividualTest {
     public void noEsValidoConUnAtributoInvalidoTest() {
         //Setup
         atributosDinamicos.addAll(List.of(atributoDinamico, atributoDinamico2, atributoDinamico3));
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", 120.0, atributosDinamicos);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0, atributosDinamicos);
         //Stubbing del comportamiento esperado
         when(atributoDinamico.esValido()).thenReturn(true);
         when(atributoDinamico2.esValido()).thenReturn(false);

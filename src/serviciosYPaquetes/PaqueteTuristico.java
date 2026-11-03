@@ -3,20 +3,20 @@ package serviciosYPaquetes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaquetesTuristicos extends ItemCatalogo{
+public class PaqueteTuristico extends ItemCatalogo{
     //Atributos
     private double descuento;
     private List<ItemCatalogo> items;
 
     //Constructores
     //Constructor 1: Inicializar con la lista vacía
-    public PaquetesTuristicos(String id, String nombre, String proveedor, double descuento) {
-        this(id, nombre, proveedor, descuento, new ArrayList<>());
+    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria, double descuento) {
+        this(id, nombre, proveedor, categoria, descuento, new ArrayList<>());
     }
 
     //Constructor 2: Inicializar con la lista dada
-    public PaquetesTuristicos(String id, String nombre, String proveedor, double descuento, List<ItemCatalogo> items) {
-        super(id, nombre, proveedor);
+    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria, double descuento, List<ItemCatalogo> items) {
+        super(id, nombre, proveedor, categoria);
         this.descuento = descuento / 100.0;
         this.items = items;
     }
