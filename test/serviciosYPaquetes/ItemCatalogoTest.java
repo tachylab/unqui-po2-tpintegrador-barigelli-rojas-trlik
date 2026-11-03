@@ -19,7 +19,7 @@ public class ItemCatalogoTest {
     @Test
     public void getIdTest() {
         //Stubbing del comportamiento esperado
-        when(((ItemCatalogo) itemCatalogo).getId()).thenReturn("1");
+        when((itemCatalogo).getId()).thenReturn("1");
         //Verify (Assert)
         assertEquals("1", itemCatalogo.getId());
         //Verify (Mockito)
@@ -29,7 +29,7 @@ public class ItemCatalogoTest {
     @Test
     public void getNombreTest() {
         //Stubbing del comportamiento esperado
-        when(((ItemCatalogo) itemCatalogo).getNombre()).thenReturn("ItemGenérico");
+        when((itemCatalogo).getNombre()).thenReturn("ItemGenérico");
         //Verify (Assert)
         assertEquals("ItemGenérico", itemCatalogo.getNombre());
         //Verify (Mockito)
@@ -39,10 +39,21 @@ public class ItemCatalogoTest {
     @Test
     public void getProveedorTest() {
         //Stubbing del comportamiento esperado
-        when(((ItemCatalogo) itemCatalogo).getProveedor()).thenReturn("Proveedor");
+        when((itemCatalogo).getProveedor()).thenReturn("Proveedor");
         //Verify (Assert)
         assertEquals("Proveedor", itemCatalogo.getProveedor());
         //Verify (Mockito)
         verify(itemCatalogo).getProveedor();
+    }
+
+    @Test
+    public void getCategoriaTest() {
+        //Stubbing del comportamiento esperado
+        when((itemCatalogo).getCategoria()).thenReturn("Categoria");
+        //Verify (Assert)
+        assertEquals("Categoria", itemCatalogo.getCategoria());
+        //Verify (Mockito)
+        verify(itemCatalogo).getCategoria();
+
     }
 }
