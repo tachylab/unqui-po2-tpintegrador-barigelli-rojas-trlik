@@ -11,13 +11,13 @@ public class ServicioIndividual extends ItemCatalogo {
 
     //Constructores
     //Constructor 1: Inicializar con la lista vacía
-    public ServicioIndividual(String id, String nombre, String proveedor, double precioBase) {
-        this(id, nombre, proveedor, precioBase, new ArrayList<>());
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase) {
+        this(id, nombre, proveedor, categoria, precioBase, new ArrayList<>());
     }
 
     //Constructor 2: Inicializar pasando la lista de atributos dinámicos
-    public ServicioIndividual(String id, String nombre, String proveedor, double precioBase, List<AtributoDinamico> atributosDinamicos) {
-        super(id, nombre, proveedor);
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase, List<AtributoDinamico> atributosDinamicos) {
+        super(id, nombre, proveedor, categoria);
         this.precioBase = precioBase;
         this.atributosDinamicos = atributosDinamicos;
     }

@@ -7,14 +7,14 @@ import static org.mockito.Mockito.*;
 
 public class PaqueteTuristicoTest {
 
-    PaquetesTuristicos paqueteTuristico;
+    PaqueteTuristico paqueteTuristico;
     ItemCatalogo item;
     ItemCatalogo item2;
 
     //Set up
     @BeforeEach
     public void setUp() {
-        paqueteTuristico = new PaquetesTuristicos("1", "PaqueteTuristico", "Proveedor", 10.0);
+        paqueteTuristico = new PaqueteTuristico("1", "PaqueteTuristico", "Proveedor", "Categoria", 10.0);
         item = mock(ItemCatalogo.class);
         item2 = mock(ItemCatalogo.class);
     }
@@ -36,6 +36,12 @@ public class PaqueteTuristicoTest {
     public void getProveedorTest() {
         //Verify (Assert)
         assertEquals("Proveedor", paqueteTuristico.getProveedor());
+    }
+
+    @Test
+    public void getCategoriaTest() {
+        //Verify (Assert)
+        assertEquals("Categoria", paqueteTuristico.getCategoria());
     }
 
     @Test
