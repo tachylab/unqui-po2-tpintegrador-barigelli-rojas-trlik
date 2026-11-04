@@ -4,6 +4,9 @@ import serviciosYPaquetes.ItemCatalogo;
 import java.util.ArrayList;
 import java.util.List;
 import serviciosYPaquetes.ItemCatalogo;
+import java.util.Map;
+import java.util.HashMap;
+import serviciosYPaquetes.ServicioIndividual;
 
 
 public class Reserva {
@@ -11,11 +14,11 @@ public class Reserva {
     private EstadoDeReserva estado;
     private List<ItemCatalogo> items;
     private Disponibilidad disponibilidad;
+    private Map<Disponibilidad, Integer> cuposBloqueados = new HashMap<>();
 
-    public Reserva(Disponibilidad disponibilidad) {
+    public Reserva() {
         this.estado = new SolicitudPendiente();
         this.items = new ArrayList<>();
-        this.disponibilidad = disponibilidad;
     }
 
     public void setEstado(EstadoDeReserva nuevoEstado) {
@@ -42,7 +45,6 @@ public class Reserva {
         this.estado.iniciar(this);
     }
 
-
     public EstadoDeReserva getEstado() {
         return this.estado;
     }
@@ -65,5 +67,73 @@ public class Reserva {
 
     public List<ItemCatalogo> getItems() {
         return List.copyOf(items);
+    }
+
+    public Map<Disponibilidad, Integer> obtenerCantidades() {
+        Map<Disponibilidad, Integer> cantidades = new HashMap<>();
+        for (ItemCatalogo item : items) {
+            for (ServicioIndividual servicio : item.obtenerServicios()) {
+                Disponibilidad disponibilidad = servicio.getDisponibilidad();
+                cantidades.merge(disponibilidad, 1, Integer::sum);
+            }
+        }
+
+        return cantidades;
+    }
+
+
+    public void bloquearCupos() {
+        verificarQueNoEsteBloqueada();
+        Map<Disponibilidad, Integer> cantidades = obtenerCantidades();
+        verificarQueSePuedanBloquear(cantidades);
+        reservarCantidades(cantidades);
+        cuposBloqueados = new HashMap<>(cantidades);
+    }
+
+    private void verificarQueNoEsteBloqueada() {
+        if (!cuposBloqueados.isEmpty()) {
+            throw new OperacionInvalidaException("La reserva ya tiene cupos bloqueados");
+        }
+    }
+
+    private void verificarQueSePuedanBloquear(
+            Map<Disponibilidad, Integer> cantidades) {
+
+        if (cantidades.isEmpty()) {
+            throw new OperacionInvalidaException("No se puede confirmar una reserva sin servicios");
+        }
+
+        for (Map.Entry<Disponibilidad, Integer> entrada : cantidades.entrySet()) {
+            if (!entrada.getKey().tieneCuposDisponibles(entrada.getValue())) {
+                throw new CupoInsuficienteException("No hay suficientes cupos");
+            }
+        }
+    }
+
+    private void reservarCantidades(
+            Map<Disponibilidad, Integer> cantidades) {
+
+        for (Map.Entry<Disponibilidad, Integer> entrada : cantidades.entrySet()) {
+            entrada.getKey().reservarCupos(entrada.getValue());
+        }
+    }
+
+
+    public void liberarCupos() {
+        verificarQueHayaCuposBloqueados();
+        liberarCantidades();
+        cuposBloqueados.clear();
+    }
+
+    private void verificarQueHayaCuposBloqueados() {
+        if (cuposBloqueados.isEmpty()) {
+            throw new OperacionInvalidaException("La reserva no tiene cupos bloqueados");
+        }
+    }
+
+    private void liberarCantidades() {
+        for (Map.Entry<Disponibilidad, Integer> entrada : cuposBloqueados.entrySet()) {
+            entrada.getKey().liberarCupos(entrada.getValue());
+        }
     }
 }

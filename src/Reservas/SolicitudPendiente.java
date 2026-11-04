@@ -5,13 +5,14 @@ public class SolicitudPendiente extends EstadoDeReserva {
 
     @Override
     public void confirmar(Reserva reserva) {
+        reserva.bloquearCupos();
         reserva.setEstado(new Confirmada());
-        // Bloquear Decremento de Cupos
     }
 
     @Override
     public void cancelar(Reserva reserva) {
         reserva.setEstado(new Cancelada());
+        //reserva.bloquearCupos();
     }
 
     @Override

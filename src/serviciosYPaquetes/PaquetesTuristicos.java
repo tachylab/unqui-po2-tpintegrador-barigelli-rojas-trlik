@@ -2,6 +2,8 @@ package serviciosYPaquetes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.List;
+import java.util.ArrayList;
 
 public class PaquetesTuristicos extends ItemCatalogo{
     //Atributos
@@ -48,5 +50,31 @@ public class PaquetesTuristicos extends ItemCatalogo{
 
     void eliminarItem(ItemCatalogo item){
         items.remove(item);
+    }
+
+    //Cupos
+    @Override
+    public boolean tieneCupoDisponible() {
+        return !items.isEmpty() && items.stream().allMatch(ItemCatalogo::tieneCupoDisponible);
+    }
+
+    @Override
+    public void reservarCupo() {
+        items.forEach(ItemCatalogo::reservarCupo);
+    }
+
+    @Override
+    public void liberarCupo() {
+        items.forEach(ItemCatalogo::liberarCupo);
+    }
+
+    @Override
+    public List<ServicioIndividual> obtenerServicios() {
+        List<ServicioIndividual> servicios = new ArrayList<>();
+        for (ItemCatalogo item : items) {
+            servicios.addAll(item.obtenerServicios());
+        }
+
+        return servicios;
     }
 }

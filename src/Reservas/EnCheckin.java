@@ -8,6 +8,7 @@ public class EnCheckin extends EstadoDeReserva {
 
     @Override
     public void cancelar(Reserva reserva) {
+        reserva.liberarCupos();
         reserva.setEstado(new Cancelada());
         //Se libera cupo y se reembolsa tanto el costo como las tasas
     }

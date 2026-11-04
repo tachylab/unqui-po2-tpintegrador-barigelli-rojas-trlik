@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import java.util.List;
 
 public class PaqueteTuristicoTest {
 
@@ -128,4 +129,74 @@ public class PaqueteTuristicoTest {
         //Verify (Mockito)
         verify(item2, never()).precioBase();
     }
+
+    // CUPOS
+    @Test
+    void paqueteTieneCuposCuandoTodosSusItemsTienen() {
+        ItemCatalogo vueloMock = mock(ItemCatalogo.class);
+        ItemCatalogo hotelMock = mock(ItemCatalogo.class);
+        when(vueloMock.tieneCupoDisponible()).thenReturn(true);
+        when(hotelMock.tieneCupoDisponible()).thenReturn(true);
+        PaquetesTuristicos paquete = new PaquetesTuristicos("P001", "Paquete Bariloche", "Agencia", 10, List.of(vueloMock, hotelMock));
+        assertTrue(paquete.tieneCupoDisponible());
+    }
+
+    @Test
+    void paqueteNoTieneCuposSiUnItemEstaAgotado() {
+        ItemCatalogo vueloMock = mock(ItemCatalogo.class);
+        ItemCatalogo hotelMock = mock(ItemCatalogo.class);
+        when(vueloMock.tieneCupoDisponible()).thenReturn(true);
+        when(hotelMock.tieneCupoDisponible()).thenReturn(false);
+        PaquetesTuristicos paquete = new PaquetesTuristicos("P001", "Paquete Bariloche", "Agencia", 10, List.of(vueloMock, hotelMock));
+        assertFalse(paquete.tieneCupoDisponible());
+    }
+
+    @Test
+    void obtenerServiciosDeUnPaquete() {
+        ServicioIndividual vuelo = mock(ServicioIndividual.class);
+        ServicioIndividual hotel = mock(ServicioIndividual.class);
+
+        when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
+        when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
+
+        PaquetesTuristicos paquete = new PaquetesTuristicos("P1", "Bariloche", "Agencia", 10, List.of(vuelo, hotel));
+        assertEquals(List.of(vuelo, hotel), paquete.obtenerServicios());
+    }
+
+    @Test
+    void obtenerServiciosDePaquetesAnidados() {
+
+        ServicioIndividual vuelo = mock(ServicioIndividual.class);
+        ServicioIndividual excursion = mock(ServicioIndividual.class);
+        ServicioIndividual paseo = mock(ServicioIndividual.class);
+
+        when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
+        when(excursion.obtenerServicios()).thenReturn(List.of(excursion));
+        when(paseo.obtenerServicios()).thenReturn(List.of(paseo));
+
+        PaquetesTuristicos paqueteCordoba = new PaquetesTuristicos("P2", "Cordoba", "Agencia", 10, List.of(excursion, paseo));
+
+        PaquetesTuristicos paqueteBariloche = new PaquetesTuristicos("P1", "Bariloche", "Agencia", 10, List.of(vuelo, paqueteCordoba));
+
+        assertEquals(List.of(vuelo, excursion, paseo), paqueteBariloche.obtenerServicios());
+    }
+
+    @Test
+    void obtenerServiciosConservaLosRepetidos() {
+
+        ServicioIndividual vuelo = mock(ServicioIndividual.class);
+        ServicioIndividual hotel = mock(ServicioIndividual.class);
+
+        when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
+        when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
+
+        PaquetesTuristicos paquete = new PaquetesTuristicos(
+                "P1", "AventuraLoca", "Agencia", 10,
+                List.of(vuelo, hotel, vuelo)
+        );
+
+        assertEquals(List.of(vuelo, hotel, vuelo), paquete.obtenerServicios()
+        );
+    }
+
 }

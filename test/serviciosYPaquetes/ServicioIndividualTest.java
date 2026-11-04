@@ -1,4 +1,5 @@
 package serviciosYPaquetes;
+import Reservas.Disponibilidad;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ public class ServicioIndividualTest {
     AtributoDinamico atributoDinamico;
     AtributoDinamico atributoDinamico2;
     AtributoDinamico atributoDinamico3;
+
     @BeforeEach
     public void setUp() {
         servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", 120.0);
@@ -92,4 +94,44 @@ public class ServicioIndividualTest {
         verify(atributoDinamico).esValido();
         verify(atributoDinamico2).esValido();
     }
+
+    //Cupos
+    @Test
+    void reservarCupoDelegaEnDisponibilidad() {
+        Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        servicio.reservarCupo();
+        verify(disponibilidadMock).reservarCupo();
+    }
+
+    @Test
+    void liberarCupoDelegaEnDisponibilidad() {
+        Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        servicio.liberarCupo();
+        verify(disponibilidadMock).liberarCupo();
+    }
+
+    @Test
+    void tieneCupoDisponibleCuandoHayCupos() {
+        Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        when(disponibilidadMock.tieneCupoDisponible()).thenReturn(true);
+        assertTrue(servicio.tieneCupoDisponible());
+    }
+
+    @Test
+    void noTieneCupoDisponibleCuandoEstaAgotado() {
+        Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        when(disponibilidadMock.tieneCupoDisponible()).thenReturn(false);
+        assertFalse(servicio.tieneCupoDisponible());
+    }
+
+    @Test
+    void obtenerServiciosDevuelveElMismoServicio() {
+        ServicioIndividual servicio = new ServicioIndividual("1", "Vuelo", "Proveedor", 100.0);
+        assertEquals(List.of(servicio), servicio.obtenerServicios());
+    }
+
 }

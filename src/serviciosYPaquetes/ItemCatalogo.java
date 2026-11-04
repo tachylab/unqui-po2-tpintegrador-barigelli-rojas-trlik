@@ -1,4 +1,5 @@
 package serviciosYPaquetes;
+import java.util.List;
 
 public abstract class ItemCatalogo {
     //Atributos
@@ -31,4 +32,14 @@ public abstract class ItemCatalogo {
     public abstract double precioFinal();
 
     public abstract boolean esValido();
+
+    //CUPOS
+    public abstract boolean tieneCupoDisponible();
+
+    public abstract void reservarCupo();
+
+    public abstract void liberarCupo();
+
+    public abstract List<ServicioIndividual> obtenerServicios();
+
 }
