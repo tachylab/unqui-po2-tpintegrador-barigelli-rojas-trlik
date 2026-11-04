@@ -17,5 +17,5 @@ public class TrasladoVip implements TipoDeTraslado {
         float costo = new LibreriaTrasladoVip.calcularCosto((float) precioTotal);
         return BigDecimal.valueOf(costo);
     }
-    
+
 }

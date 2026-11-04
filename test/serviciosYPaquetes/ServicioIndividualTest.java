@@ -99,7 +99,7 @@ public class ServicioIndividualTest {
     @Test
     void reservarCupoDelegaEnDisponibilidad() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria", 120.0, new ArrayList<>(), disponibilidadMock);
         servicio.reservarCupo();
         verify(disponibilidadMock).reservarCupo();
     }
@@ -107,7 +107,7 @@ public class ServicioIndividualTest {
     @Test
     void liberarCupoDelegaEnDisponibilidad() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor","Categoria", 120.0, new ArrayList<>(), disponibilidadMock);
         servicio.liberarCupo();
         verify(disponibilidadMock).liberarCupo();
     }
@@ -115,7 +115,7 @@ public class ServicioIndividualTest {
     @Test
     void tieneCupoDisponibleCuandoHayCupos() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
         when(disponibilidadMock.tieneCupoDisponible()).thenReturn(true);
         assertTrue(servicio.tieneCupoDisponible());
     }
@@ -123,15 +123,22 @@ public class ServicioIndividualTest {
     @Test
     void noTieneCupoDisponibleCuandoEstaAgotado() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
         when(disponibilidadMock.tieneCupoDisponible()).thenReturn(false);
         assertFalse(servicio.tieneCupoDisponible());
     }
 
     @Test
     void obtenerServiciosDevuelveElMismoServicio() {
-        ServicioIndividual servicio = new ServicioIndividual("1", "Vuelo", "Proveedor", 100.0);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Vuelo", "Proveedor", "Categoria", 100.0);
         assertEquals(List.of(servicio), servicio.obtenerServicios());
+    }
+
+    @Test
+    void obtenerDisponibilidadDelServicio() {
+        Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
+        assertSame(disponibilidadMock, servicio.getDisponibilidad());
     }
 
 }

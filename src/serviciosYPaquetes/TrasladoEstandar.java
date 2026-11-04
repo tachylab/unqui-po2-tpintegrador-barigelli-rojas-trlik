@@ -12,7 +12,7 @@ public  class TrasladoEstandar implements TipoDeTraslado {
         this.cantPasajeros = cantPasajeros;
         this.direccionDestino = direccionDestino;
     }
-    
+
     //accessors
     public BigDecimal calcularCosto() {
       float costo = PlataformaTransporte.estimarTraslado(cantPasajeros, direccionDestino);

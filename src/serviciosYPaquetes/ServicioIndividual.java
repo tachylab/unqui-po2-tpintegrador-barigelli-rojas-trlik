@@ -11,43 +11,48 @@ public class ServicioIndividual extends ItemCatalogo {
     private List<AtributoDinamico> atributosDinamicos;
     private Disponibilidad disponibilidad;
 /*
-    //Constructores
+
     //Constructor 1: Inicializar con la lista vacía
     public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase) {
         this(id, nombre, proveedor, categoria, precioBase, new ArrayList<>());
     }
 
-    //Constructor 2: Inicializar pasando la lista de atributos dinámicos
+
     public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase, List<AtributoDinamico> atributosDinamicos) {
         super(id, nombre, proveedor, categoria);
         this.precioBase = precioBase;
         this.atributosDinamicos = atributosDinamicos;
     }*/
 
+    //Constructores
+    //Constructor 1: Inicializar con la lista de atributos vacía y disponibilidad minima
     public ServicioIndividual(
             String id,
             String nombre,
             String proveedor,
+            String categoria,
             double precioBase
     ) {
-        this(id, nombre, proveedor, precioBase,
+        this(id, nombre, proveedor, categoria, precioBase,
                 new ArrayList<>(), new Disponibilidad(1));
     }
 
+    //Constructor 2: Inicializar pasando la lista de atributos dinámicos pero aun con disponibilidad minima
     public ServicioIndividual(
             String id,
             String nombre,
             String proveedor,
+            String categoria,
             double precioBase,
             List<AtributoDinamico> atributosDinamicos
     ) {
-        this(id, nombre, proveedor, precioBase,
+        this(id, nombre, proveedor, categoria, precioBase,
                 atributosDinamicos, new Disponibilidad(1));
     }
 
-    //Constructor 3: Constructor para cupos
-    public ServicioIndividual(String id, String nombre, String proveedor, double precioBase, List<AtributoDinamico> atributosDinamicos, Disponibilidad disponibilidad) {
-        super(id, nombre, proveedor);
+    //Constructor 3: Inicializar pasando la lista de atributos dinámicos y una disponibilidad dada
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase, List<AtributoDinamico> atributosDinamicos, Disponibilidad disponibilidad) {
+        super(id, nombre, proveedor, categoria);
         this.precioBase = precioBase;
         this.atributosDinamicos = atributosDinamicos;
         this.disponibilidad = disponibilidad;
