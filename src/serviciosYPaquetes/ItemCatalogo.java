@@ -6,12 +6,14 @@ public abstract class ItemCatalogo {
     protected String id;
     protected String nombre;
     protected String proveedor;
+    protected String categoria;
 
     //Constructor
-    protected  ItemCatalogo(String id, String nombre, String proveedor) {
+    protected  ItemCatalogo(String id, String nombre, String proveedor, String categoria) {
         this.id = id;
         this.nombre = nombre;
         this.proveedor = proveedor;
+        this.categoria = categoria;
     }
 
     //Accessors
@@ -25,6 +27,10 @@ public abstract class ItemCatalogo {
 
     public String getProveedor() {
         return proveedor;
+    }
+
+    public String getCategoria() {
+        return categoria;
     }
 
     public abstract double precioBase();
