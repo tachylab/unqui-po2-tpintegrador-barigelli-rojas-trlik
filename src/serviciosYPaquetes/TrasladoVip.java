@@ -5,10 +5,10 @@ public class TrasladoVip implements TipoDeTraslado {
     
     //atributos
     private LibreriaTrasladoVip vip;
-    private int precioTotal;
+    private float precioTotal;
     
     //constructor
-    public TrasladoVip(LibreriaTrasladoVip vip, int precioTotal) {
+    public TrasladoVip(LibreriaTrasladoVip vip, float precioTotal) {
         this.vip = vip;
         this.precioTotal = precioTotal;
     }
@@ -16,7 +16,7 @@ public class TrasladoVip implements TipoDeTraslado {
     //accessors
     @Override 
     public BigDecimal calcularCosto() {
-        float costo = vip.calcularCosto((float) precioTotal);
+        float costo = vip.calcularCosto(precioTotal);
         return BigDecimal.valueOf(costo);
     }
 
