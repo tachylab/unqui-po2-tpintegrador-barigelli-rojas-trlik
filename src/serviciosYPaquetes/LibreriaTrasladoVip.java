@@ -1,5 +1,5 @@
 package serviciosYPaquetes;
 
-public abstract class LibreriaTrasladoVip {
+public interface LibreriaTrasladoVip {
     public abstract float calcularCosto(float precioTotal);
 }

@@ -4,17 +4,19 @@ import java.math.BigDecimal;
 public class TrasladoVip implements TipoDeTraslado {
     
     //atributos
+    private LibreriaTrasladoVip vip;
     private int precioTotal;
     
     //constructor
-    public TrasladoVip(int precioTotal) {
+    public TrasladoVip(LibreriaTrasladoVip vip, int precioTotal) {
+        this.vip = vip;
         this.precioTotal = precioTotal;
     }
     
     //accessors
     @Override 
     public BigDecimal calcularCosto() {
-        float costo = new LibreriaTrasladoVip.calcularCosto((float) precioTotal);
+        float costo = vip.calcularCosto((float) precioTotal);
         return BigDecimal.valueOf(costo);
     }
 
