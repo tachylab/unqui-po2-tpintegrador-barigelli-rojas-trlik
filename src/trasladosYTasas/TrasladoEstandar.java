@@ -1,4 +1,4 @@
-package serviciosYPaquetes;
+package trasladosYTasas;
 import java.math.BigDecimal;
 
 public  class TrasladoEstandar implements TipoDeTraslado {
