@@ -7,14 +7,19 @@ import serviciosYPaquetes.ItemCatalogo;
 import java.util.Map;
 import java.util.HashMap;
 import serviciosYPaquetes.ServicioIndividual;
+import serviciosYPaquetes.TrasladosYTasas;
+import java.math.BigDecimal;
 
 
 public class Reserva {
 
+    //atrivutos
     private EstadoDeReserva estado;
     private List<ItemCatalogo> items;
     private Disponibilidad disponibilidad;
     private Map<Disponibilidad, Integer> cuposBloqueados = new HashMap<>();
+    //atrivuto para traslados
+    private TrasladosYTasas traslado;
 
     public Reserva() {
         this.estado = new SolicitudPendiente();
@@ -44,7 +49,21 @@ public class Reserva {
     public void iniciar() {
         this.estado.iniciar(this);
     }
-
+    
+//traslados y tasas
+    public void asignarTraslados(TrasladosYTasas traslado) {
+        this.traslado = traslado;
+    }
+    
+    public BigDecimal calcularCostoTraslado() {
+        if (traslado == null) {
+            return BigDecimal.ZERO;
+        }
+        return traslado.calcularCosto();
+    }
+//
+    
+    
     public EstadoDeReserva getEstado() {
         return this.estado;
     }
