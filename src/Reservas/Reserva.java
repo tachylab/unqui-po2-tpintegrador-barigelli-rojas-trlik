@@ -3,11 +3,11 @@ package Reservas;
 import serviciosYPaquetes.ItemCatalogo;
 import java.util.ArrayList;
 import java.util.List;
-import serviciosYPaquetes.ItemCatalogo;
+//import serviciosYPaquetes.ItemCatalogo;
 import java.util.Map;
 import java.util.HashMap;
 import serviciosYPaquetes.ServicioIndividual;
-import serviciosYPaquetes.TrasladosYTasas;
+import trasladosYTasas.TrasladosYTasas;
 import java.math.BigDecimal;
 
 
