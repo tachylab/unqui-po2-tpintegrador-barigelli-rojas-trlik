@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c2f4ada-98cf-4fe0-97d8-e3ef5b1bcd7b" name="Changes" comment="Terminado modulo 2" />
+    <list default="true" id="9c2f4ada-98cf-4fe0-97d8-e3ef5b1bcd7b" name="Changes" comment="Terminado modulo 2 con Merge(?">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -260,7 +263,8 @@
     <MESSAGE value="Agregando parte de tests y codigo de reserva, pasado de eclipse a IntelliJ" />
     <MESSAGE value="Implementacion de los cupos del modulo 2.2, me falta refactorizar" />
     <MESSAGE value="Terminado modulo 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Terminado modulo 2" />
+    <MESSAGE value="Terminado modulo 2 con Merge(?" />
+    <option name="LAST_COMMIT_MESSAGE" value="Terminado modulo 2 con Merge(?" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
