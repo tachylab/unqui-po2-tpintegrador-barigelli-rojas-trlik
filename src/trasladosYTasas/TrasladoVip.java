@@ -1,20 +1,22 @@
-package serviciosYPaquetes;
+package trasladosYTasas;
 import java.math.BigDecimal;
 
 public class TrasladoVip implements TipoDeTraslado {
     
     //atributos
-    private int precioTotal;
+    private LibreriaTrasladoVip vip;
+    private float precioTotal;
     
     //constructor
-    public TrasladoVip(int precioTotal) {
+    public TrasladoVip(LibreriaTrasladoVip vip, float precioTotal) {
+        this.vip = vip;
         this.precioTotal = precioTotal;
     }
     
     //accessors
     @Override 
     public BigDecimal calcularCosto() {
-        float costo = new LibreriaTrasladoVip.calcularCosto((float) precioTotal);
+        float costo = vip.calcularCosto(precioTotal);
         return BigDecimal.valueOf(costo);
     }
 

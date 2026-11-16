@@ -6,16 +6,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import serviciosYPaquetes.ServicioIndividual;
+import trasladosYTasas.TrasladosYTasas;
+import java.math.BigDecimal;
 
 
 public class Reserva {
 
+    //atrivutos
     private EstadoDeReserva estado;
     private List<ItemCatalogo> items;
     private Map<Disponibilidad, Integer> cuposBloqueados = new HashMap<>();
+    //atrivuto para traslados
+    private TrasladosYTasas traslado;
     private double tasasReserva;
     private List<VoucherReembolso> reembolsos;
     private Map<ServicioIndividual, Integer> serviciosDisfrutados = new HashMap<>();
+
 
     public Reserva() {
         this.estado = new SolicitudPendiente();
@@ -26,40 +32,64 @@ public class Reserva {
     public void setEstado(EstadoDeReserva nuevoEstado) {
         this.estado = nuevoEstado;
     }
+
     public void confirmar() {
         this.estado.confirmar(this);
     }
+
     public void cancelar() {
         this.estado.cancelar(this);
     }
+
     public void finalizar() {
         this.estado.finalizar(this);
     }
+
     public void hacerCheckin() {
         this.estado.hacerCheckin(this);
     }
+
     public void iniciar() {
         this.estado.iniciar(this);
     }
+
+    //traslados y tasas
+    public void asignarTraslados(TrasladosYTasas traslado) {
+        this.traslado = traslado;
+    }
+
+    public BigDecimal calcularCostoTraslado() {
+        if (traslado == null) {
+            return BigDecimal.ZERO;
+        }
+        return traslado.calcularCosto();
+    }
+//
+
+
     public EstadoDeReserva getEstado() {
         return this.estado;
     }
+
     public void agregarServicio(ItemCatalogo item) {
         estado.agregarServicio(this, item);
     }
+
     public void quitarServicio(ItemCatalogo item) {
         estado.quitarServicio(this, item);
     }
+
     void agregarItemInternamente(ItemCatalogo item) {
         items.add(item);
     }
+
     void quitarItemInternamente(ItemCatalogo item) {
         items.remove(item);
     }
+
     public List<ItemCatalogo> getItems() {
         return List.copyOf(items);
     }
-
 
     public Map<Disponibilidad, Integer> obtenerCantidades() {
         Map<Disponibilidad, Integer> cantidades = new HashMap<>();
@@ -72,6 +102,7 @@ public class Reserva {
 
         return cantidades;
     }
+
 
     public void bloquearCupos() {
         verificarQueNoEsteBloqueada();
@@ -219,7 +250,6 @@ public class Reserva {
             registrarReembolso(importe);
         }
     }
-
 
 
 }

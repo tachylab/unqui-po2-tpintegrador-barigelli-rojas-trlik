@@ -1,4 +1,4 @@
-package serviciosYPaquetes;
+package trasladosYTasas;
 import java.math.BigDecimal;
 
 public class TrasladosYTasas {
@@ -16,3 +16,4 @@ public class TrasladosYTasas {
     }
     
 }
+
