@@ -3,7 +3,6 @@ package Reservas;
 import serviciosYPaquetes.ItemCatalogo;
 import java.util.ArrayList;
 import java.util.List;
-import serviciosYPaquetes.ItemCatalogo;
 import java.util.Map;
 import java.util.HashMap;
 import serviciosYPaquetes.ServicioIndividual;
@@ -13,61 +12,54 @@ public class Reserva {
 
     private EstadoDeReserva estado;
     private List<ItemCatalogo> items;
-    private Disponibilidad disponibilidad;
     private Map<Disponibilidad, Integer> cuposBloqueados = new HashMap<>();
+    private double tasasReserva;
+    private List<VoucherReembolso> reembolsos;
+    private Map<ServicioIndividual, Integer> serviciosDisfrutados = new HashMap<>();
 
     public Reserva() {
         this.estado = new SolicitudPendiente();
         this.items = new ArrayList<>();
+        this.reembolsos = new ArrayList<>();
     }
 
     public void setEstado(EstadoDeReserva nuevoEstado) {
         this.estado = nuevoEstado;
     }
-
     public void confirmar() {
         this.estado.confirmar(this);
     }
-
     public void cancelar() {
         this.estado.cancelar(this);
     }
-
     public void finalizar() {
         this.estado.finalizar(this);
     }
-
     public void hacerCheckin() {
         this.estado.hacerCheckin(this);
     }
-
     public void iniciar() {
         this.estado.iniciar(this);
     }
-
     public EstadoDeReserva getEstado() {
         return this.estado;
     }
-
     public void agregarServicio(ItemCatalogo item) {
         estado.agregarServicio(this, item);
     }
-
     public void quitarServicio(ItemCatalogo item) {
         estado.quitarServicio(this, item);
     }
-
     void agregarItemInternamente(ItemCatalogo item) {
         items.add(item);
     }
-
-    void QuitarItemInternamente(ItemCatalogo item) {
+    void quitarItemInternamente(ItemCatalogo item) {
         items.remove(item);
     }
-
     public List<ItemCatalogo> getItems() {
         return List.copyOf(items);
     }
+
 
     public Map<Disponibilidad, Integer> obtenerCantidades() {
         Map<Disponibilidad, Integer> cantidades = new HashMap<>();
@@ -80,7 +72,6 @@ public class Reserva {
 
         return cantidades;
     }
-
 
     public void bloquearCupos() {
         verificarQueNoEsteBloqueada();
@@ -136,4 +127,99 @@ public class Reserva {
             entrada.getKey().liberarCupos(entrada.getValue());
         }
     }
+
+
+    public void registrarReembolso(double monto) {
+        VoucherReembolso voucher = new VoucherReembolso(monto);
+        reembolsos.add(voucher);
+    }
+
+    public List<VoucherReembolso> getReembolsos() {
+        return List.copyOf(reembolsos);
+    }
+
+    public double precioTotalServicios() {
+        return items.stream().mapToDouble(ItemCatalogo::precioFinal).sum();
+    }
+
+    public void establecerTasasReserva(double tasas) {
+        if (tasas < 0) {
+            throw new OperacionInvalidaException("Las tasas de reserva no pueden ser negativas");
+        }
+        this.tasasReserva = tasas;
+    }
+
+    public void reembolsarServiciosYTasas() {
+        double monto = precioTotalServicios() + tasasReserva;
+
+        if (monto > 0) {
+            registrarReembolso(monto);
+        }
+    }
+
+    public long cantidadReservadaDe(ServicioIndividual servicio) {
+        return items.stream().flatMap(item -> item.obtenerServicios().stream()).filter(s -> s == servicio).count();
+    }
+
+    private void verificarQueEsteEnCurso() {
+        if (!(estado instanceof EnCurso)) {
+            throw new OperacionInvalidaException("Solo se pueden registrar servicios disfrutados en EnCurso");
+        }
+    }
+
+    public void registrarServicioDisfrutado(ServicioIndividual servicio) {
+        verificarQueEsteEnCurso();
+
+        long cantidadReservada = cantidadReservadaDe(servicio);
+        int cantidadDisfrutada = serviciosDisfrutados.getOrDefault(servicio, 0);
+
+        if (cantidadDisfrutada >= cantidadReservada) {
+            throw new OperacionInvalidaException("No hay unidades pendientes de disfrutar de este servicio");
+        }
+
+        serviciosDisfrutados.merge(servicio, 1, Integer::sum);
+    }
+
+    public int cantidadDisfrutadaDe(ServicioIndividual servicio) {
+        return serviciosDisfrutados.getOrDefault(servicio, 0);
+    }
+
+
+    private Map<ServicioIndividual, Integer> cantidadesReservadas() {
+        Map<ServicioIndividual, Integer> cantidades = new HashMap<>();
+
+        for (ItemCatalogo item : items) {
+            for (ServicioIndividual servicio : item.obtenerServicios()) {
+                cantidades.merge(servicio, 1, Integer::sum);
+            }
+        }
+
+        return cantidades;
+    }
+
+
+    private Map<ServicioIndividual, Integer> cantidadesNoDisfrutadas() {
+        Map<ServicioIndividual, Integer> pendientes = cantidadesReservadas();
+        serviciosDisfrutados.forEach((servicio, cantidad) -> pendientes.merge(servicio, -cantidad, Integer::sum));
+        return pendientes;
+    }
+
+    public double precioServiciosNoDisfrutados() {
+        Map<ServicioIndividual, Integer> pendientes = cantidadesNoDisfrutadas();
+
+        return items.stream().mapToDouble(item -> item.precioNoDisfrutado(pendientes)).sum();
+    }
+
+
+
+    public void reembolsarServiciosNoDisfrutados() {
+        double importe = precioServiciosNoDisfrutados();
+
+        if (importe > 0) {
+            registrarReembolso(importe);
+        }
+    }
+
+
+
 }

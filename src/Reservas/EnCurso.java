@@ -8,8 +8,8 @@ public class EnCurso extends EstadoDeReserva {
 
     @Override
     public void cancelar(Reserva reserva) {
+        reserva.reembolsarServiciosNoDisfrutados();
         reserva.setEstado(new Cancelada());
-        //Se reembolsa costo de no se que pero no de las tasas
     }
 
 }

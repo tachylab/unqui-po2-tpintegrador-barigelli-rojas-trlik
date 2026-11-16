@@ -517,12 +517,153 @@ class ReservaTest {
         ServicioIndividual vuelo = mock(ServicioIndividual.class);
         when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
         when(vuelo.getDisponibilidad()).thenReturn(disponibilidad);
-
         Reserva reserva = new Reserva();
         reserva.agregarServicio(vuelo);
-
         assertThrows(CupoInsuficienteException.class, () -> reserva.confirmar());
-
         assertInstanceOf(SolicitudPendiente.class, reserva.getEstado());
+    }
+
+    @Test
+    void calculaElPrecioTotalDeLosServicios() {
+        ItemCatalogo servicio = mock(ItemCatalogo.class);
+        ItemCatalogo paquete = mock(ItemCatalogo.class);
+        when(servicio.precioFinal()).thenReturn(100.0);
+        when(paquete.precioFinal()).thenReturn(270.0);
+        reserva.agregarServicio(servicio);
+        reserva.agregarServicio(paquete);
+        assertEquals(370.0, reserva.precioTotalServicios());
+    }
+
+    //Voucher
+
+    @Test
+    void unaReservaPuedeRegistrarUnReembolso() {
+        reserva.registrarReembolso(15000);
+        assertEquals(1, reserva.getReembolsos().size());
+        assertEquals(15000, reserva.getReembolsos().get(0).getMonto());
+    }
+
+    @Test
+    void unaReservaPuedeRegistrarVariosReembolsos() {
+        reserva.registrarReembolso(15000);
+        reserva.registrarReembolso(5000);
+        assertEquals(2, reserva.getReembolsos().size());
+    }
+
+    @Test
+    void cancelarDesdeEnCheckinGeneraReembolsoCompleto() {
+        ServicioIndividual servicio = mock(ServicioIndividual.class);
+        Disponibilidad disponibilidad = new Disponibilidad(5);
+        when(servicio.obtenerServicios()).thenReturn(List.of(servicio));
+        when(servicio.getDisponibilidad()).thenReturn(disponibilidad);
+        when(servicio.precioFinal()).thenReturn(1000.0);
+        reserva.agregarServicio(servicio);
+        reserva.establecerTasasReserva(200);
+        reserva.confirmar();
+        reserva.hacerCheckin();
+        reserva.cancelar();
+        assertInstanceOf(Cancelada.class, reserva.getEstado());
+        assertEquals(5, disponibilidad.getCuposDisponibles());
+        assertEquals(1, reserva.getReembolsos().size());
+        assertEquals(1200.0, reserva.getReembolsos().get(0).getMonto());
+    }
+
+    @Test
+    void sePuedeRegistrarUnServicioDisfrutadoEnCurso() {
+        ServicioIndividual servicio = mock(ServicioIndividual.class);
+        Disponibilidad disponibilidad = new Disponibilidad(2);
+        when(servicio.obtenerServicios()).thenReturn(List.of(servicio));
+        when(servicio.getDisponibilidad()).thenReturn(disponibilidad);
+        reserva.agregarServicio(servicio);
+        reserva.confirmar();
+        reserva.hacerCheckin();
+        reserva.iniciar();
+        reserva.registrarServicioDisfrutado(servicio);
+        assertEquals(1, reserva.cantidadDisfrutadaDe(servicio));
+    }
+
+    @Test
+    void noSePuedeDisfrutarMasUnidadesQueLasReservadas() {
+        ServicioIndividual servicio = mock(ServicioIndividual.class);
+        Disponibilidad disponibilidad = new Disponibilidad(2);
+        when(servicio.obtenerServicios()).thenReturn(List.of(servicio));
+        when(servicio.getDisponibilidad()).thenReturn(disponibilidad);
+        reserva.agregarServicio(servicio);
+        reserva.confirmar();
+        reserva.hacerCheckin();
+        reserva.iniciar();
+        reserva.registrarServicioDisfrutado(servicio);
+        assertThrows(OperacionInvalidaException.class, () -> reserva.registrarServicioDisfrutado(servicio));
+    }
+
+
+    @Test
+    void noSePuedeRegistrarServicioDisfrutadoFueraDeEnCurso() {
+        ServicioIndividual servicio = mock(ServicioIndividual.class);
+        assertThrows(OperacionInvalidaException.class, () -> reserva.registrarServicioDisfrutado(servicio));
+    }
+
+    @Test
+    void calculaPrecioDeServiciosNoDisfrutados() {
+        ServicioIndividual vuelo = mock(ServicioIndividual.class);
+        ServicioIndividual hotel = mock(ServicioIndividual.class);
+
+        when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
+        when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
+
+        when(vuelo.getDisponibilidad()).thenReturn(new Disponibilidad(1));
+        when(hotel.getDisponibilidad()).thenReturn(new Disponibilidad(1));
+
+        when(vuelo.precioFinal()).thenReturn(100.0);
+        when(hotel.precioFinal()).thenReturn(200.0);
+
+        when(vuelo.precioNoDisfrutado(anyMap())).thenCallRealMethod();
+        when(hotel.precioNoDisfrutado(anyMap())).thenCallRealMethod();
+
+        reserva.agregarServicio(vuelo);
+        reserva.agregarServicio(hotel);
+        reserva.confirmar();
+        reserva.hacerCheckin();
+        reserva.iniciar();
+        reserva.registrarServicioDisfrutado(vuelo);
+        assertEquals(200.0, reserva.precioServiciosNoDisfrutados());
+    }
+
+
+    @Test
+    void cancelarReservaEnCursoReembolsaServiciosNoDisfrutados() {
+        Reserva reserva = mock(Reserva.class);
+        EnCurso estado = new EnCurso();
+        estado.cancelar(reserva);
+        verify(reserva).reembolsarServiciosNoDisfrutados();
+        verify(reserva).setEstado(any(Cancelada.class));
+    }
+
+
+    @Test
+    void cancelarEnCursoReembolsaServiciosNoDisfrutados() {
+        ServicioIndividual vuelo = mock(ServicioIndividual.class);
+        ServicioIndividual hotel = mock(ServicioIndividual.class);
+
+        when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
+        when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
+        when(vuelo.getDisponibilidad()).thenReturn(new Disponibilidad(1));
+        when(hotel.getDisponibilidad()).thenReturn(new Disponibilidad(1));
+        when(vuelo.precioFinal()).thenReturn(100.0);
+        when(hotel.precioFinal()).thenReturn(200.0);
+        when(vuelo.precioNoDisfrutado(anyMap())).thenCallRealMethod();
+        when(hotel.precioNoDisfrutado(anyMap())).thenCallRealMethod();
+
+        reserva.agregarServicio(vuelo);
+        reserva.agregarServicio(hotel);
+        reserva.establecerTasasReserva(50);
+        reserva.confirmar();
+        reserva.hacerCheckin();
+        reserva.iniciar();
+        reserva.registrarServicioDisfrutado(vuelo);
+        reserva.cancelar();
+        assertInstanceOf(Cancelada.class, reserva.getEstado());
+        assertEquals(1, reserva.getReembolsos().size());
+        assertEquals(200.0, reserva.getReembolsos().get(0).getMonto());
     }
 }

@@ -3,6 +3,7 @@ package serviciosYPaquetes;
 import java.util.ArrayList;
 import java.util.List;
 import Reservas.Disponibilidad;
+import java.util.Map;
 
 public class ServicioIndividual extends ItemCatalogo {
 
@@ -95,5 +96,15 @@ public class ServicioIndividual extends ItemCatalogo {
 
     public Disponibilidad getDisponibilidad() {
         return disponibilidad;
+    }
+
+    @Override
+    public double precioNoDisfrutado(Map<ServicioIndividual, Integer> pendientes) {
+        int cantidad = pendientes.getOrDefault(this, 0);
+        if (cantidad > 0) {
+            pendientes.put(this, cantidad - 1);
+            return precioFinal();
+        }
+        return 0;
     }
 }

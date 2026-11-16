@@ -22,7 +22,7 @@ public class SolicitudPendiente extends EstadoDeReserva {
 
     @Override
     public void quitarServicio(Reserva reserva, ItemCatalogo item) {
-        reserva.QuitarItemInternamente(item);
+        reserva.quitarItemInternamente(item);
     }
 
 }
