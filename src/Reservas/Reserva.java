@@ -8,7 +8,7 @@ import java.util.HashMap;
 import serviciosYPaquetes.ServicioIndividual;
 import trasladosYTasas.TrasladosYTasas;
 import java.math.BigDecimal;
-
+import notificaciones.ObservadorReserva;
 
 public class Reserva {
 
@@ -21,7 +21,8 @@ public class Reserva {
     private double tasasReserva;
     private List<VoucherReembolso> reembolsos;
     private Map<ServicioIndividual, Integer> serviciosDisfrutados = new HashMap<>();
-
+    private List<ObservadorReserva> observadores = new ArrayList<>();
+    private String emailCliente;
 
     public Reserva() {
         this.estado = new SolicitudPendiente();
@@ -30,7 +31,9 @@ public class Reserva {
     }
 
     public void setEstado(EstadoDeReserva nuevoEstado) {
+        EstadoDeReserva anterior = this.estado;
         this.estado = nuevoEstado;
+        notificarCambioDeEstado(anterior, nuevoEstado);
     }
 
     public void confirmar() {
@@ -251,5 +254,27 @@ public class Reserva {
         }
     }
 
+
+    public void agregarObservador(ObservadorReserva observador) {
+        observadores.add(observador);
+    }
+
+    public void quitarObservador(ObservadorReserva observador) {
+        observadores.remove(observador);
+    }
+
+    private void notificarCambioDeEstado(EstadoDeReserva anterior, EstadoDeReserva nuevo) {
+        for (ObservadorReserva observador : observadores) {
+            observador.cambioDeEstado(this, anterior, nuevo);
+        }
+    }
+
+    public void establecerEmailCliente(String email) {
+        this.emailCliente = email;
+    }
+
+    public String getEmailCliente() {
+        return emailCliente;
+    }
 
 }

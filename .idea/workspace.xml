@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c2f4ada-98cf-4fe0-97d8-e3ef5b1bcd7b" name="Changes" comment="Terminado modulo 2 con Merge(?">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="9c2f4ada-98cf-4fe0-97d8-e3ef5b1bcd7b" name="Changes" comment="Exclui archivos compilados del repositorio">
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/ClubViajeros.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/GeneradorComprobantes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/GeneradorDocumentos.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/MailSender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/NotificadorEmail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/notificaciones/ObservadorReserva.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/notificaciones/ClubViajerosTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/notificaciones/GeneradorComprobantesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/notificaciones/NotificadorEmailTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/notificaciones/ReservaObserverTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Reservas/Reserva.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Reservas/Reserva.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +58,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in unqui-po2-tpintegrador-barigelli-rojas-trlik.executor": "Run",
     "JUnit.AtributoDinamicoTest.executor": "Run",
     "JUnit.CanceladaTest.executor": "Run",
     "JUnit.ConfirmadaTest.executor": "Run",
@@ -65,6 +76,7 @@
     "JUnit.EnCursoTest.executor": "Run",
     "JUnit.FinalizadaTest.executor": "Run",
     "JUnit.ItemCatalogoTest.executor": "Run",
+    "JUnit.NotificadorEmailTest.executor": "Run",
     "JUnit.PaqueteTuristicoTest.executor": "Run",
     "JUnit.PaqueteTuristicoTest.obtenerServiciosConservaLosRepetidos.executor": "Run",
     "JUnit.PaqueteTuristicoTest.obtenerServiciosDePaquetesAnidados.executor": "Run",
@@ -111,6 +123,7 @@
     "JUnit.TipoNumericoTest.executor": "Run",
     "JUnit.TipoTextoTest.executor": "Run",
     "JUnit.VoucherReembolsoTest.executor": "Run",
+    "JUnit.notificaciones in unqui-po2-tpintegrador-barigelli-rojas-trlik.executor": "Run",
     "JUnit.serviciosYPaquetes in unqui-po2-tpintegrador-barigelli-rojas-trlik.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Repository.Attach.Annotations": "false",
@@ -131,17 +144,25 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.serviciosYPaquetes in unqui-po2-tpintegrador-barigelli-rojas-trlik">
-    <configuration name="ReservaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in unqui-po2-tpintegrador-barigelli-rojas-trlik">
+    <configuration name="All in unqui-po2-tpintegrador-barigelli-rojas-trlik" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unqui-po2-tpintegrador-barigelli-rojas-trlik" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificadorEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unqui-po2-tpintegrador-barigelli-rojas-trlik" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Reservas.*" />
+          <option name="PATTERN" value="notificaciones.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Reservas" />
-      <option name="MAIN_CLASS_NAME" value="Reservas.ReservaTest" />
+      <option name="PACKAGE_NAME" value="notificaciones" />
+      <option name="MAIN_CLASS_NAME" value="notificaciones.NotificadorEmailTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -161,32 +182,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SolicitudPendienteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="notificaciones in unqui-po2-tpintegrador-barigelli-rojas-trlik" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unqui-po2-tpintegrador-barigelli-rojas-trlik" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Reservas.*" />
+          <option name="PATTERN" value="notificaciones.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Reservas" />
-      <option name="MAIN_CLASS_NAME" value="Reservas.SolicitudPendienteTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VoucherReembolsoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unqui-po2-tpintegrador-barigelli-rojas-trlik" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Reservas.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Reservas" />
-      <option name="MAIN_CLASS_NAME" value="Reservas.VoucherReembolsoTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="notificaciones" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -207,11 +212,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in unqui-po2-tpintegrador-barigelli-rojas-trlik" />
+        <item itemvalue="JUnit.notificaciones in unqui-po2-tpintegrador-barigelli-rojas-trlik" />
+        <item itemvalue="JUnit.NotificadorEmailTest" />
         <item itemvalue="JUnit.serviciosYPaquetes in unqui-po2-tpintegrador-barigelli-rojas-trlik" />
         <item itemvalue="JUnit.Reservas in unqui-po2-tpintegrador-barigelli-rojas-trlik" />
-        <item itemvalue="JUnit.ReservaTest" />
-        <item itemvalue="JUnit.VoucherReembolsoTest" />
-        <item itemvalue="JUnit.SolicitudPendienteTest" />
       </list>
     </recent_temporary>
   </component>
@@ -264,7 +269,8 @@
     <MESSAGE value="Implementacion de los cupos del modulo 2.2, me falta refactorizar" />
     <MESSAGE value="Terminado modulo 2" />
     <MESSAGE value="Terminado modulo 2 con Merge(?" />
-    <option name="LAST_COMMIT_MESSAGE" value="Terminado modulo 2 con Merge(?" />
+    <MESSAGE value="Exclui archivos compilados del repositorio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exclui archivos compilados del repositorio" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
