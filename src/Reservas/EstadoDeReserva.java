@@ -3,9 +3,6 @@ import serviciosYPaquetes.ItemCatalogo;
 
 public class EstadoDeReserva {
 
-    //private List<ElementoCatalogo> items;
-
-
     public void confirmar(Reserva reserva) {
         throw new OperacionInvalidaException(
                 "No se puede hacer check-in de una reserva pendiente"

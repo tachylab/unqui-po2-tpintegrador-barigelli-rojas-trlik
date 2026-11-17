@@ -1,5 +1,7 @@
 package serviciosYPaquetes;
 import java.util.List;
+import java.util.Map;
+
 
 public abstract class ItemCatalogo {
     //Atributos
@@ -7,6 +9,7 @@ public abstract class ItemCatalogo {
     protected String nombre;
     protected String proveedor;
     protected String categoria;
+
 
     //Constructor
     protected  ItemCatalogo(String id, String nombre, String proveedor, String categoria) {
@@ -47,5 +50,7 @@ public abstract class ItemCatalogo {
     public abstract void liberarCupo();
 
     public abstract List<ServicioIndividual> obtenerServicios();
+
+    public abstract double precioNoDisfrutado(Map<ServicioIndividual, Integer> pendientes);
 
 }

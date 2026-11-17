@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+
 
 public class PaqueteTuristico extends ItemCatalogo{
     //Atributos
@@ -76,5 +78,12 @@ public class PaqueteTuristico extends ItemCatalogo{
         }
 
         return servicios;
+    }
+
+
+    @Override
+    public double precioNoDisfrutado(Map<ServicioIndividual, Integer> pendientes) {
+        double total = items.stream().mapToDouble(item -> item.precioNoDisfrutado(pendientes)).sum();
+        return total * (1.0 - descuento);
     }
 }
