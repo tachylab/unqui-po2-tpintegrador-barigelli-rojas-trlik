@@ -12,9 +12,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+//import java.util.HashMap;
 
-import serviciosYPaquetes.ItemCatalogo;
 
 
 class ReservaTest {

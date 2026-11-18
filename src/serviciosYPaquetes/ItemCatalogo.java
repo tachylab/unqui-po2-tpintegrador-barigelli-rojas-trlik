@@ -1,6 +1,8 @@
 package serviciosYPaquetes;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
+import reportes.VisitanteReportes;
 
 
 public abstract class ItemCatalogo {
@@ -9,14 +11,21 @@ public abstract class ItemCatalogo {
     protected String nombre;
     protected String proveedor;
     protected String categoria;
+    //atributo para reportes
+    protected int cupoTotal;
+    protected LocalDate fechaInicio;
+    protected LocalDate fechaFin;
 
 
     //Constructor
-    protected  ItemCatalogo(String id, String nombre, String proveedor, String categoria) {
+    protected  ItemCatalogo(String id, String nombre, String proveedor, String categoria, int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin) {
         this.id = id;
         this.nombre = nombre;
         this.proveedor = proveedor;
         this.categoria = categoria;
+        this.cupoTotal = cupoTotal;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
     }
 
     //Accessors
@@ -53,4 +62,18 @@ public abstract class ItemCatalogo {
 
     public abstract double precioNoDisfrutado(Map<ServicioIndividual, Integer> pendientes);
 
+    //Reportes
+    public abstract void aceptarVisistante(VisitanteReportes visitante);
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+    
+    public int getCupoTotal() {
+        return cupoTotal;
+    }
 }

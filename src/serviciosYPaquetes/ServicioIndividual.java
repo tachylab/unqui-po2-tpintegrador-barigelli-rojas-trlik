@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import Reservas.Disponibilidad;
 import java.util.Map;
+import java.time.LocalDate;
+import reportes.VisitanteReportes;
 
 public class ServicioIndividual extends ItemCatalogo {
 
@@ -27,33 +29,21 @@ public class ServicioIndividual extends ItemCatalogo {
 
     //Constructores
     //Constructor 1: Inicializar con la lista de atributos vacía y disponibilidad minima
-    public ServicioIndividual(
-            String id,
-            String nombre,
-            String proveedor,
-            String categoria,
-            double precioBase
-    ) {
-        this(id, nombre, proveedor, categoria, precioBase,
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin, double precioBase) {
+        this(id, nombre, proveedor, categoria, cupoTotal, fechaInicio, fechaFin, precioBase,
                 new ArrayList<>(), new Disponibilidad(1));
     }
 
     //Constructor 2: Inicializar pasando la lista de atributos dinámicos pero aun con disponibilidad minima
-    public ServicioIndividual(
-            String id,
-            String nombre,
-            String proveedor,
-            String categoria,
-            double precioBase,
-            List<AtributoDinamico> atributosDinamicos
-    ) {
-        this(id, nombre, proveedor, categoria, precioBase,
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin, double precioBase,
+            List<AtributoDinamico> atributosDinamicos) {
+        this(id, nombre, proveedor, categoria, cupoTotal, fechaInicio, fechaFin, precioBase,
                 atributosDinamicos, new Disponibilidad(1));
     }
 
     //Constructor 3: Inicializar pasando la lista de atributos dinámicos y una disponibilidad dada
-    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, double precioBase, List<AtributoDinamico> atributosDinamicos, Disponibilidad disponibilidad) {
-        super(id, nombre, proveedor, categoria);
+    public ServicioIndividual(String id, String nombre, String proveedor, String categoria, int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin, double precioBase, List<AtributoDinamico> atributosDinamicos, Disponibilidad disponibilidad) {
+        super(id, nombre, proveedor, categoria, cupoTotal, fechaInicio, fechaFin);
         this.precioBase = precioBase;
         this.atributosDinamicos = atributosDinamicos;
         this.disponibilidad = disponibilidad;
@@ -106,5 +96,11 @@ public class ServicioIndividual extends ItemCatalogo {
             return precioFinal();
         }
         return 0;
+    }
+    
+    //Reportes
+    @Override 
+    public void aceptarVisistante(VisitanteReportes visitante) {
+        visitante.visitar(this);
     }
 }

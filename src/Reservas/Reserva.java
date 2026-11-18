@@ -23,6 +23,8 @@ public class Reserva {
     private Map<ServicioIndividual, Integer> serviciosDisfrutados = new HashMap<>();
     private List<ObservadorReserva> observadores = new ArrayList<>();
     private String emailCliente;
+    //atributo para reportes
+    private Map<ItemCatalogo, Double> preciosAplicados = new HashMap<>();
 
     public Reserva() {
         this.estado = new SolicitudPendiente();
@@ -277,4 +279,12 @@ public class Reserva {
         return emailCliente;
     }
 
+    //Reportes
+    public void registrarPrecioAplicado(ItemCatalogo item, double precio) {
+        preciosAplicados.put(item, precio);
+    }
+    
+    public Map<ItemCatalogo, Double> getPreciosAplicados() {
+        return Map.copyOf(preciosAplicados);
+    }
 }

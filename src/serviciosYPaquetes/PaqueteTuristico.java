@@ -2,9 +2,9 @@ package serviciosYPaquetes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
+import java.time.LocalDate;
+import reportes.VisitanteReportes;
 
 
 public class PaqueteTuristico extends ItemCatalogo{
@@ -14,13 +14,13 @@ public class PaqueteTuristico extends ItemCatalogo{
 
     //Constructores
     //Constructor 1: Inicializar con la lista vacía
-    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria, double descuento) {
-        this(id, nombre, proveedor, categoria, descuento, new ArrayList<>());
+    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria, int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin, double descuento) {
+        this(id, nombre, proveedor, categoria, cupoTotal, fechaInicio, fechaFin, descuento, new ArrayList<>());
     }
 
     //Constructor 2: Inicializar con la lista dada
-    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria, double descuento, List<ItemCatalogo> items) {
-        super(id, nombre, proveedor, categoria);
+    public PaqueteTuristico(String id, String nombre, String proveedor, String categoria,int cupoTotal, LocalDate fechaInicio, LocalDate fechaFin, double descuento, List<ItemCatalogo> items) {
+        super(id, nombre, proveedor, categoria, cupoTotal, fechaInicio, fechaFin);
         this.descuento = descuento / 100.0;
         this.items = items;
     }
@@ -85,5 +85,11 @@ public class PaqueteTuristico extends ItemCatalogo{
     public double precioNoDisfrutado(Map<ServicioIndividual, Integer> pendientes) {
         double total = items.stream().mapToDouble(item -> item.precioNoDisfrutado(pendientes)).sum();
         return total * (1.0 - descuento);
+    }
+    
+    //Reportes
+    @Override 
+    public void aceptarVisistante(VisitanteReportes visitante) {
+        visitante.visitar(this);
     }
 }

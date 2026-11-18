@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import java.util.List;
+import java.time.LocalDate;
 
 public class PaqueteTuristicoTest {
 
@@ -15,7 +16,7 @@ public class PaqueteTuristicoTest {
     //Set up
     @BeforeEach
     public void setUp() {
-        paqueteTuristico = new PaqueteTuristico("1", "PaqueteTuristico", "Proveedor", "Categoria", 10.0);
+        paqueteTuristico = new PaqueteTuristico("1", "PaqueteTuristico", "Proveedor", "Categoria", 10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10.0);
         item = mock(ItemCatalogo.class);
         item2 = mock(ItemCatalogo.class);
     }
@@ -143,7 +144,7 @@ public class PaqueteTuristicoTest {
         ItemCatalogo hotelMock = mock(ItemCatalogo.class);
         when(vueloMock.tieneCupoDisponible()).thenReturn(true);
         when(hotelMock.tieneCupoDisponible()).thenReturn(true);
-        PaqueteTuristico paquete = new PaqueteTuristico("P001", "Paquete Bariloche", "Agencia", "Categoria", 10, List.of(vueloMock, hotelMock));
+        PaqueteTuristico paquete = new PaqueteTuristico("P001", "Paquete Bariloche", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10, List.of(vueloMock, hotelMock));
         assertTrue(paquete.tieneCupoDisponible());
     }
 
@@ -153,7 +154,7 @@ public class PaqueteTuristicoTest {
         ItemCatalogo hotelMock = mock(ItemCatalogo.class);
         when(vueloMock.tieneCupoDisponible()).thenReturn(true);
         when(hotelMock.tieneCupoDisponible()).thenReturn(false);
-        PaqueteTuristico paquete = new PaqueteTuristico("P001", "Paquete Bariloche", "Agencia", "Categoria", 10, List.of(vueloMock, hotelMock));
+        PaqueteTuristico paquete = new PaqueteTuristico("P001", "Paquete Bariloche", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10, List.of(vueloMock, hotelMock));
         assertFalse(paquete.tieneCupoDisponible());
     }
 
@@ -165,7 +166,7 @@ public class PaqueteTuristicoTest {
         when(vuelo.obtenerServicios()).thenReturn(List.of(vuelo));
         when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
 
-        PaqueteTuristico paquete = new PaqueteTuristico("P1", "Bariloche", "Agencia", "Categoria", 10, List.of(vuelo, hotel));
+        PaqueteTuristico paquete = new PaqueteTuristico("P1", "Bariloche", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10, List.of(vuelo, hotel));
         assertEquals(List.of(vuelo, hotel), paquete.obtenerServicios());
     }
 
@@ -180,9 +181,9 @@ public class PaqueteTuristicoTest {
         when(excursion.obtenerServicios()).thenReturn(List.of(excursion));
         when(paseo.obtenerServicios()).thenReturn(List.of(paseo));
 
-        PaqueteTuristico paqueteCordoba = new PaqueteTuristico("P2", "Cordoba", "Agencia", "Categoria", 10, List.of(excursion, paseo));
+        PaqueteTuristico paqueteCordoba = new PaqueteTuristico("P2", "Cordoba", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10, List.of(excursion, paseo));
 
-        PaqueteTuristico paqueteBariloche = new PaqueteTuristico("P1", "Bariloche", "Agencia", "Categoria", 10, List.of(vuelo, paqueteCordoba));
+        PaqueteTuristico paqueteBariloche = new PaqueteTuristico("P1", "Bariloche", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10, List.of(vuelo, paqueteCordoba));
 
         assertEquals(List.of(vuelo, excursion, paseo), paqueteBariloche.obtenerServicios());
     }
@@ -197,7 +198,7 @@ public class PaqueteTuristicoTest {
         when(hotel.obtenerServicios()).thenReturn(List.of(hotel));
 
         PaqueteTuristico paquete = new PaqueteTuristico(
-                "P1", "AventuraLoca", "Agencia", "Categoria", 10,
+                "P1", "AventuraLoca", "Agencia", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 10,
                 List.of(vuelo, hotel, vuelo)
         );
 

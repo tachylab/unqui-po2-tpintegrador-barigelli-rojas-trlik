@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ServicioIndividualTest {
 
     @BeforeEach
     public void setUp() {
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 120.0);
         atributosDinamicos = new ArrayList<>();
         atributoDinamico = mock(AtributoDinamico.class);
         atributoDinamico2 = mock(AtributoDinamico.class);
@@ -67,7 +68,7 @@ public class ServicioIndividualTest {
     public void esValidoConTodosLosAtributosValidosTest() {
         //Setup
         atributosDinamicos.addAll(List.of(atributoDinamico, atributoDinamico2, atributoDinamico3));
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0, atributosDinamicos);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 120.0, atributosDinamicos);
         //Stubbing del comportamiento esperado
         when(atributoDinamico.esValido()).thenReturn(true);
         when(atributoDinamico2.esValido()).thenReturn(true);
@@ -84,7 +85,7 @@ public class ServicioIndividualTest {
     public void noEsValidoConUnAtributoInvalidoTest() {
         //Setup
         atributosDinamicos.addAll(List.of(atributoDinamico, atributoDinamico2, atributoDinamico3));
-        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria", 120.0, atributosDinamicos);
+        servicioIndividual = new ServicioIndividual("1", "ServicioIndividual", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 120.0, atributosDinamicos);
         //Stubbing del comportamiento esperado
         when(atributoDinamico.esValido()).thenReturn(true);
         when(atributoDinamico2.esValido()).thenReturn(false);
@@ -99,7 +100,7 @@ public class ServicioIndividualTest {
     @Test
     void reservarCupoDelegaEnDisponibilidad() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 120.0, new ArrayList<>(), disponibilidadMock);
         servicio.reservarCupo();
         verify(disponibilidadMock).reservarCupo();
     }
@@ -107,7 +108,7 @@ public class ServicioIndividualTest {
     @Test
     void liberarCupoDelegaEnDisponibilidad() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor","Categoria", 120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor","Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 120.0, new ArrayList<>(), disponibilidadMock);
         servicio.liberarCupo();
         verify(disponibilidadMock).liberarCupo();
     }
@@ -115,7 +116,7 @@ public class ServicioIndividualTest {
     @Test
     void tieneCupoDisponibleCuandoHayCupos() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20),120.0, new ArrayList<>(), disponibilidadMock);
         when(disponibilidadMock.tieneCupoDisponible()).thenReturn(true);
         assertTrue(servicio.tieneCupoDisponible());
     }
@@ -123,21 +124,21 @@ public class ServicioIndividualTest {
     @Test
     void noTieneCupoDisponibleCuandoEstaAgotado() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20),120.0, new ArrayList<>(), disponibilidadMock);
         when(disponibilidadMock.tieneCupoDisponible()).thenReturn(false);
         assertFalse(servicio.tieneCupoDisponible());
     }
 
     @Test
     void obtenerServiciosDevuelveElMismoServicio() {
-        ServicioIndividual servicio = new ServicioIndividual("1", "Vuelo", "Proveedor", "Categoria", 100.0);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Vuelo", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20), 100.0);
         assertEquals(List.of(servicio), servicio.obtenerServicios());
     }
 
     @Test
     void obtenerDisponibilidadDelServicio() {
         Disponibilidad disponibilidadMock = mock(Disponibilidad.class);
-        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",120.0, new ArrayList<>(), disponibilidadMock);
+        ServicioIndividual servicio = new ServicioIndividual("1", "Excursión", "Proveedor", "Categoria",10, LocalDate.of(2026, 11, 17), LocalDate.of(2026, 11, 20),120.0, new ArrayList<>(), disponibilidadMock);
         assertSame(disponibilidadMock, servicio.getDisponibilidad());
     }
 
