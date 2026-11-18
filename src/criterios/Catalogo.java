@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import reportes.VisitanteReportes;
 
-import reportes.Reporte;
+//import reportes.Reporte;
 
 public class Catalogo {
     //Atributos
@@ -23,9 +23,9 @@ public class Catalogo {
                         .collect(Collectors.toList());
     }
     
-    public void generarReporte(Reporte reporte) {
+   public void generarReporte(VisitanteReportes visitante) {
         for (ItemCatalogo item : items) {
-            item.aceptarVisistante((VisitanteReportes) reporte);
+        item.aceptarVisistante(visitante);
         }
     }
 }

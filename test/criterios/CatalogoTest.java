@@ -1,12 +1,15 @@
 package criterios;
 
 import serviciosYPaquetes.ItemCatalogo;
-
+import serviciosYPaquetes.PaqueteTuristico;
+import serviciosYPaquetes.ServicioIndividual;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import reportes.VisitanteReportes;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+import java.time.LocalDate;
 import java.util.List;
 
 public class CatalogoTest {
@@ -16,6 +19,7 @@ public class CatalogoTest {
     ItemCatalogo item;
     ItemCatalogo item2;
     ItemCatalogo item3;
+    VisitanteReportes visitante;
 
     //Set up
     @BeforeEach
@@ -25,6 +29,7 @@ public class CatalogoTest {
         item = mock(ItemCatalogo.class);
         item2 = mock(ItemCatalogo.class);
         item3 = mock(ItemCatalogo.class);
+        visitante = mock(VisitanteReportes.class);
     }
 
     //Testing
@@ -93,4 +98,56 @@ public class CatalogoTest {
         //Verify (Assert)
         assertEquals(List.of(item, item2), catalogo.buscar(todos));
     }
+    
+    //Tests de generarReporte
+    @Test
+public void generarReporteVisitaServicioIndividualTest() {
+    ServicioIndividual servicio = new ServicioIndividual(
+        "1", "Hotel", "Proveedor A", "Alojamiento",
+        10, LocalDate.of(2026, 2, 1),
+        LocalDate.of(2026, 2, 5), 100.0
+    );
+
+    catalogo.agregarItem(servicio);
+    catalogo.generarReporte(visitante);
+
+    verify(visitante).visitar(servicio);
+}
+
+@Test
+public void generarReporteVisitaPaqueteTuristicoTest() {
+    PaqueteTuristico paquete = new PaqueteTuristico(
+        "2", "Paquete", "Proveedor B", "Turismo",
+        10, LocalDate.of(2026, 3, 1),
+        LocalDate.of(2026, 3, 5), 10.0
+    );
+
+    catalogo.agregarItem(paquete);
+    catalogo.generarReporte(visitante);
+
+    verify(visitante).visitar(paquete);
+}
+
+@Test
+public void generarReporteVisitaTodosLosItemsTest() {
+    ServicioIndividual servicio = new ServicioIndividual(
+        "1", "Hotel", "Proveedor A", "Alojamiento",
+        10, LocalDate.of(2026, 2, 1),
+        LocalDate.of(2026, 2, 5), 100.0
+    );
+
+    PaqueteTuristico paquete = new PaqueteTuristico(
+        "2", "Paquete", "Proveedor B", "Turismo",
+        10, LocalDate.of(2026, 3, 1),
+        LocalDate.of(2026, 3, 5), 10.0
+    );
+
+    catalogo.agregarItem(servicio);
+    catalogo.agregarItem(paquete);
+    catalogo.generarReporte(visitante);
+
+    verify(visitante).visitar(servicio);
+    verify(visitante).visitar(paquete);
+}
+
 }
